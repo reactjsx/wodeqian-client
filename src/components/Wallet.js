@@ -1,53 +1,36 @@
-import React, { Component } from 'react';
-import { getTransactions } from '../utils/helper';
-import TransactionList from './TransactionList';
-import AddTransactionPanel from './AddTransactionPanel';
+import React from 'react';
+import Transaction from './Transaction';
+import { Table } from 'semantic-ui-react';
 
-import { Header, Icon } from 'semantic-ui-react';
+const Wallet = (props) => {
+  const transactions = props.transactions.map(transaction => (
+    <Transaction
+      key={transaction._id}
+      name={transaction.name}
+      category={transaction.category}
+      year={transaction.year}
+      month={transaction.month}
+      day={transaction.day}
+      cost={transaction.cost}
+    />
+  ));
 
-class Wallet extends Component {
-  state = {
-    wallet: '',
-    transactions: [],
-    budgets: []
-  }
+  return (
+    <Table striped>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>Name</Table.HeaderCell>
+          <Table.HeaderCell>Category</Table.HeaderCell>
+          <Table.HeaderCell>Cost</Table.HeaderCell>
+          <Table.HeaderCell>Date</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {transactions}
+      </Table.Body>
+    </Table>
+  )
   
-  componentDidMount() {
-    getTransactions(transactions => {
-      this.setState({
-        wallet: transactions.name,
-        transactions: transactions.transactions,
-        budgets: transactions.budgets
-      });
-    });
-  }
-  
-  handleAddButtonClick = () => {
-    console.log(this.state);
-  }
-  
-  render() {
-    return (
-      <div className='ui container'>
-        <Header
-          dividing
-          icon
-          as='h1'
-          style={{display: 'block'}}
-        >
-          <Icon name='money' />
-          我的錢
-        </Header>
-        <AddTransactionPanel
-          onAddButtonClick={this.handleAddButtonClick}
-          icon='plus'
-        />
-        <TransactionList
-          transactions={this.state.transactions}
-        />
-      </div>
-    );
-  }
 }
 
 export default Wallet;

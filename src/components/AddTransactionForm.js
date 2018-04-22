@@ -3,6 +3,7 @@ import { Form, Button, Input, Dropdown } from 'semantic-ui-react';
 import years from '../common/years';
 import months from '../common/months';
 import days from '../common/days';
+import category from '../common/category';
 
 class AddTransactionForm extends Component {
   state = {
@@ -23,7 +24,19 @@ class AddTransactionForm extends Component {
   });
   
   handleSubmit = () => {
-    console.log('Form submitted');
+    const transaction = { ...this.state.transaction };
+    this.setState({
+      transaction: {
+        wallet: '',
+        name: '',
+        category: '',
+        cost: '',
+        year: '',
+        month: '',
+        day: ''
+      }
+    });
+    this.props.onSubmit(transaction);
   }
   
   render() {
@@ -31,11 +44,13 @@ class AddTransactionForm extends Component {
       <Form>
         <Form.Group widths='equal'>
           <Form.Field>
-            <Input
+            <Dropdown
               placeholder='Wallet'
               value={this.state.transaction.wallet}
               onChange={this.handleInputChange}
+              selection
               fluid
+              options={this.props.walletNames}
               name='wallet'
             />
           </Form.Field>
@@ -51,11 +66,13 @@ class AddTransactionForm extends Component {
           </Form.Field>
           
           <Form.Field>
-            <Input
+            <Dropdown
               placeholder='Category'
               value={this.state.transaction.category}
               onChange={this.handleInputChange}
+              selection
               fluid
+              options={category}
               name='category'
             />
           </Form.Field>
@@ -110,7 +127,7 @@ class AddTransactionForm extends Component {
         <Form.Group  widths='equal'>
           <Form.Field>
             <Button
-              onClick={this.onSubmit}
+              onClick={this.handleSubmit}
               attached='bottom'
               basic
               color='green'

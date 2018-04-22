@@ -15,8 +15,9 @@ class AddTransactionPanel extends Component {
     displayAddButton: true
   });
   
-  handleSubmit = () => {
-    
+  handleSubmit = (transaction) => {
+    this.props.onSubmit(transaction);
+    this.setState({ displayAddButton: true })
   }
   
   render() {
@@ -31,7 +32,9 @@ class AddTransactionPanel extends Component {
     }
     return (
       <AddTransactionForm
+        walletNames={this.props.walletNames}
         onCancelClick={this.handleCancelButtonClick}
+        onSubmit={this.handleSubmit}
       />
     );
   }

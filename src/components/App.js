@@ -1,8 +1,17 @@
 import React from 'react';
-import Wallet from './Wallet';
+import WalletList from './WalletList';
+import { Route, Redirect } from 'react-router-dom';
 
 const App = () => (
-  <Wallet />
+  <div>
+    <Route path='/wallets' component={ WalletList } />
+    <Route exact path='/' render={() => (
+      <Redirect
+        to='/wallets'
+      />
+    )}
+    />
+  </div>
 );
 
 export default App;
